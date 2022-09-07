@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { StoreValidator, UpdateValidator, DestroyValidator } from 'App/Validators/Product'
+import { StoreValidator, UpdateValidator } from 'App/Validators/Product'
 import { Product } from 'App/Models'
 import Database from '@ioc:Adonis/Lucid/Database'
 
