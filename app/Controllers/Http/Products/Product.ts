@@ -33,7 +33,8 @@ export default class ProductController {
 
   //20%
 
-  public async index() {
+  public async index({ request }) {
+    console.log(request.headers['x-forwarded-for'])
     const products = await Database.query().from('products').select('*').orderBy('id', 'asc')
     products.forEach((product) => {
       if (product.storage > product.max * 0.2) {
