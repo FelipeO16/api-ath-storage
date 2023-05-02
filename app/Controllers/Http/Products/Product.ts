@@ -51,16 +51,18 @@ export default class ProductController {
     return products
   }
 
-  // public async productsByCategory({ params, auth }: HttpContextContract) {
-  //   //create a selection of products where name like %params.name%
-  //   const products = await Database.query()
-  //     .from('products')
-  //     .select('*')
-  //     .where('category', params.category)
-  //     .where('user_id', auth.user!.id)
-  //     .orderBy('name', 'asc')
-  //   return products
-  // }
+  public async productsByCategory({ params }: HttpContextContract) {
+    //create a selection of products where name like %params.name%
+    const products = await Database.query().from('products').select('*').orderBy(params.category)
+    products.forEach((product) => {
+      if (product.storage > product.max * 0.2) {
+        product.status = 'Good'
+      } else {
+        product.status = 'Bad'
+      }
+    })
+    return products
+  }
 
   public async update({ request, response }: HttpContextContract) {
     const {
@@ -76,7 +78,7 @@ export default class ProductController {
       place,
     } = await request.validate(UpdateValidator)
     await Database.transaction(async (trx) => {
-      const product = await Product.findByOrFail('code', id)
+      const product = await Product.findByOrFail('id', id)
       product.useTransaction(trx)
       product.merge({
         code,

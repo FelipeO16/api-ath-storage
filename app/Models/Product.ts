@@ -5,7 +5,7 @@ export default class Product extends BaseModel {
   public id: number
 
   @column()
-  public code: string
+  public code: string | number
 
   @column()
   public suplier: string
@@ -29,5 +29,5 @@ export default class Product extends BaseModel {
   public max: number
 
   @column()
-  public place: number
+  public place: number | string
 }
