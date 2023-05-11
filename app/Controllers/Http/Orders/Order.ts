@@ -80,17 +80,12 @@ export default class ProductController {
     }
   }
 
-  public async show({ params, bouncer }: HttpContextContract) {
-    let order = (await Order.findByOrFail('id', params.id)) as any
-    await bouncer.authorize('isAuthorized', order.userId)
-    // order.total = 0
-    // if (order.products !== null) {
-    //   const item = Object.values(JSON.parse(order.products)) as any
-    //   for (let i = 0; i < item.length; i++) {
-    //     order.total = order.total + item[i].price * item[i].amount
-    //   }
-    // }
-    return order
+  public async show({ response}: HttpContextContract) {
+    const logs = await Database.query().from('logs')
+    const decodedLogs = logs.map((log) => {
+      return JSON.parse(log.payload)
+    })
+    return response.ok({ message: 'Logs retornados com sucesso.', data: decodedLogs })
   }
 
   public async update({ request, response, bouncer }: HttpContextContract) {

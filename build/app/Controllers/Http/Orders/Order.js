@@ -68,10 +68,12 @@ class ProductController {
             console.log(error);
         }
     }
-    async show({ params, bouncer }) {
-        let order = (await Models_1.Order.findByOrFail('id', params.id));
-        await bouncer.authorize('isAuthorized', order.userId);
-        return order;
+    async show({ response }) {
+        const logs = await Database_1.default.query().from('logs');
+        const decodedLogs = logs.map((log) => {
+            return JSON.parse(log.payload);
+        });
+        return response.ok({ message: 'Logs retornados com sucesso.', data: decodedLogs });
     }
     async update({ request, response, bouncer }) {
         const { id, name, place, obs, status } = await request.validate(Order_1.UpdateValidator);
