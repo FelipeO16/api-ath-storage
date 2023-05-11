@@ -1,5 +1,5 @@
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.post('/register', 'Users/Register.store')
-Route.get('/register/:key', 'Users/Register.show')
-Route.put('/register', 'Users/Register.update')
+Route.post('/api/register', 'Users/Register.store')
+Route.get('/api/register/:key', 'Users/Register.show')
+Route.put('/api/register', 'Users/Register.update')
