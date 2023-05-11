@@ -8,7 +8,6 @@ import { MailerSend, EmailParams, Sender, Recipient } from "mailersend";
 
 export default class ProductController {
   public async store({ request }: HttpContextContract) {
-    // receive title, description, amount and send email
     const { title, name, obs, products, email } = await request.validate(StoreValidator)
     const sentFrom = new Sender("felipe@athstocktake.com", "Felipe");
     const mailerSend = new MailerSend({
