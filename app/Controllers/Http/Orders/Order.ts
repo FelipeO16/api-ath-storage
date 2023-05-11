@@ -31,8 +31,12 @@ export default class ProductController {
     .setSubject("Subject")
     .setTemplateId('z3m5jgr96vmgdpyo')
     .setPersonalization(personalization);
-    await mailerSend.email.send(emailParams);
-    
+    try {
+      await mailerSend.email.send(emailParams);
+      return { message: 'Email enviado com sucesso.' }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   public async index({ auth }: HttpContextContract) {
