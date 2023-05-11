@@ -6,16 +6,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Order_1 = global[Symbol.for('ioc.use')]("App/Validators/Order");
 const Models_1 = global[Symbol.for('ioc.use')]("App/Models");
 const Database_1 = __importDefault(global[Symbol.for('ioc.use')]("Adonis/Lucid/Database"));
+require("dotenv/config");
+const mailersend_1 = require("mailersend");
 class ProductController {
-    async store({ request, response, auth }) {
-        const { name, place, obs } = await request.validate(Order_1.StoreValidator);
-        const order = new Models_1.Order();
-        order.name = name;
-        order.place = place;
-        order.obs = obs;
-        order.userId = auth.user.id;
-        await order.save();
-        response.send({ message: 'Comanda criada com sucesso.' });
+    async store({ request }) {
+        const { title, name, obs, products, email } = await request.validate(Order_1.StoreValidator);
+        const sentFrom = new mailersend_1.Sender("felipe@athstocktake.com", "Felipe");
+        const mailerSend = new mailersend_1.MailerSend({
+            apiKey: 'mlsn.b5c0d3fa7855ed1cd1bbd8e74a037330e397c01194026ee722d5822ea6e1a088',
+        });
+        const recipients = [new mailersend_1.Recipient(email, "Your Client")];
+        const personalization = [
+            {
+                email: email,
+                data: {
+                    title: title,
+                    products: products,
+                    account_name: name,
+                    support_email: obs
+                },
+            }
+        ];
+        const emailParams = new mailersend_1.EmailParams()
+            .setFrom(sentFrom)
+            .setTo(recipients)
+            .setSubject("Subject")
+            .setTemplateId('z3m5jgr96vmgdpyo')
+            .setPersonalization(personalization);
+        await mailerSend.email.send(emailParams);
     }
     async index({ auth }) {
         try {

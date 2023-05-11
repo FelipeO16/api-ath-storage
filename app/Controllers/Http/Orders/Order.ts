@@ -3,16 +3,37 @@ import { StoreValidator, UpdateValidator, DestroyValidator } from 'App/Validator
 import { Order } from 'App/Models'
 import Database from '@ioc:Adonis/Lucid/Database'
 
+import 'dotenv/config';
+import { MailerSend, EmailParams, Sender, Recipient } from "mailersend";
+
 export default class ProductController {
-  public async store({ request, response, auth }: HttpContextContract) {
-    const { name, place, obs } = await request.validate(StoreValidator)
-    const order = new Order()
-    order.name = name
-    order.place = place
-    order.obs = obs
-    order.userId = auth.user!.id
-    await order.save()
-    response.send({ message: 'Comanda criada com sucesso.' })
+  public async store({ request }: HttpContextContract) {
+    // receive title, description, amount and send email
+    const { title, name, obs, products, email } = await request.validate(StoreValidator)
+    const sentFrom = new Sender("felipe@athstocktake.com", "Felipe");
+    const mailerSend = new MailerSend({
+      apiKey: 'mlsn.b5c0d3fa7855ed1cd1bbd8e74a037330e397c01194026ee722d5822ea6e1a088',
+    });
+    const recipients = [new Recipient(email, "Your Client")];
+    const personalization = [
+      {
+        email: email,
+        data: {
+          title: title,
+          products: products,
+          account_name: name,
+          support_email: obs
+        },
+      }
+    ];
+    const emailParams = new EmailParams()
+    .setFrom(sentFrom)
+    .setTo(recipients)
+    .setSubject("Subject")
+    .setTemplateId('z3m5jgr96vmgdpyo')
+    .setPersonalization(personalization);
+    await mailerSend.email.send(emailParams);
+    
   }
 
   public async index({ auth }: HttpContextContract) {
@@ -83,4 +104,6 @@ export default class ProductController {
     await order.save()
     return response.ok({ message: 'Comanda finalizada com sucesso.' })
   }
+
+
 }

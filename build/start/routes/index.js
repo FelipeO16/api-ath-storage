@@ -1,5 +1,5 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function(mod) {
+var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -13,7 +13,7 @@ require("./categories");
 require("./orders");
 require("./order_products");
 require("./analytics");
-Route_1.default.get('/api', async() => {
+Route_1.default.get('/', async () => {
     return { hello: 'world' };
 });
 //# sourceMappingURL=index.js.map

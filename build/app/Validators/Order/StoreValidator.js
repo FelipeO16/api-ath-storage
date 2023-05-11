@@ -6,8 +6,10 @@ class StoreValidator {
         this.ctx = ctx;
         this.schema = Validator_1.schema.create({
             name: Validator_1.schema.string({ trim: true }),
-            place: Validator_1.schema.number(),
             obs: Validator_1.schema.string({ trim: true }),
+            title: Validator_1.schema.string({ trim: true }),
+            products: Validator_1.schema.array().anyMembers(),
+            email: Validator_1.schema.string({ trim: true }),
         });
         this.messages = {};
     }
