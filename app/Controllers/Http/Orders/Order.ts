@@ -39,6 +39,14 @@ export default class ProductController {
     }
   }
 
+  // create a log
+  public async log({ request }: HttpContextContract) {
+    const payload = request.all()
+    console.log(payload)
+    await Database.insertQuery().table('logs').insert({ payload: JSON.stringify(payload) })
+    return { message: 'Log criado com sucesso.' }
+  }
+
   public async index({ auth }: HttpContextContract) {
     try {
       const orders = await Database.query()
@@ -107,6 +115,6 @@ export default class ProductController {
     await order.save()
     return response.ok({ message: 'Comanda finalizada com sucesso.' })
   }
-
+  
 
 }

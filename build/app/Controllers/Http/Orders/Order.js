@@ -41,6 +41,12 @@ class ProductController {
             console.log(error);
         }
     }
+    async log({ request }) {
+        const payload = request.all();
+        console.log(payload);
+        await Database_1.default.insertQuery().table('logs').insert({ payload: JSON.stringify(payload) });
+        return { message: 'Log criado com sucesso.' };
+    }
     async index({ auth }) {
         try {
             const orders = await Database_1.default.query()

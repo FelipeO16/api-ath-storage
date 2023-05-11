@@ -4,22 +4,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Schema_1 = __importDefault(global[Symbol.for('ioc.use')]("Adonis/Lucid/Schema"));
-class Customers extends Schema_1.default {
+class Logs extends Schema_1.default {
     constructor() {
         super(...arguments);
-        this.tableName = 'customers';
+        this.tableName = 'logs';
     }
     async up() {
         this.schema.createTable(this.tableName, (table) => {
             table.increments('id');
-            table.string('fullname').notNullable();
-            table
-                .integer('user_id')
-                .unsigned()
-                .references('id')
-                .inTable('users')
-                .onUpdate('CASCADE')
-                .onDelete('CASCADE');
+            table.text('payload');
             table.timestamp('created_at', { useTz: true });
             table.timestamp('updated_at', { useTz: true });
         });
@@ -28,5 +21,5 @@ class Customers extends Schema_1.default {
         this.schema.dropTable(this.tableName);
     }
 }
-exports.default = Customers;
-//# sourceMappingURL=1648126120035_customers.js.map
+exports.default = Logs;
+//# sourceMappingURL=1643822479292_logs.js.map
