@@ -11,7 +11,7 @@ const mailersend_1 = require("mailersend");
 class ProductController {
     async store({ request }) {
         const { title, name, obs, products, email } = await request.validate(Order_1.StoreValidator);
-        const sentFrom = new mailersend_1.Sender("felipe@athstocktake.com", "Felipe");
+        const sentFrom = new mailersend_1.Sender("milton@athstocktake.com", "Milton");
         const mailerSend = new mailersend_1.MailerSend({
             apiKey: 'mlsn.b5c0d3fa7855ed1cd1bbd8e74a037330e397c01194026ee722d5822ea6e1a088',
         });
@@ -30,7 +30,7 @@ class ProductController {
         const emailParams = new mailersend_1.EmailParams()
             .setFrom(sentFrom)
             .setTo(recipients)
-            .setSubject("Subject")
+            .setSubject(title)
             .setTemplateId('z3m5jgr96vmgdpyo')
             .setPersonalization(personalization);
         try {

@@ -9,7 +9,7 @@ import { MailerSend, EmailParams, Sender, Recipient } from "mailersend";
 export default class ProductController {
   public async store({ request }: HttpContextContract) {
     const { title, name, obs, products, email } = await request.validate(StoreValidator)
-    const sentFrom = new Sender("felipe@athstocktake.com", "Felipe");
+    const sentFrom = new Sender("milton@athstocktake.com", "Milton");
     const mailerSend = new MailerSend({
       apiKey: 'mlsn.b5c0d3fa7855ed1cd1bbd8e74a037330e397c01194026ee722d5822ea6e1a088',
     });
@@ -22,13 +22,13 @@ export default class ProductController {
           products: products,
           account_name: name,
           support_email: obs
-        },
+        },                                                                                                                                    
       }
     ];
     const emailParams = new EmailParams()
     .setFrom(sentFrom)
     .setTo(recipients)
-    .setSubject("Subject")
+    .setSubject(title)
     .setTemplateId('z3m5jgr96vmgdpyo')
     .setPersonalization(personalization);
     try {
